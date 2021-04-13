@@ -46,7 +46,9 @@
         <Friend />
         <Score />
 
-        <component :is="character"></component>
+        <component :is="character" class="character-clip"></component>
+
+        <Zombie class="zombie-clip" />
 
         <text
           x="1000"
@@ -102,6 +104,8 @@
 
 <script>
 import { mapState } from 'vuex'
+import gsap from 'gsap'
+
 import Artist from '@/components/Artist.vue'
 import Baker from '@/components/Baker.vue'
 import Friend from '@/components/Friend.vue'
@@ -133,7 +137,8 @@ export default {
       'questions',
       'characterChoices',
       'character',
-      'questionIndex'
+      'questionIndex',
+      'score'
     ])
   },
   methods: {
@@ -151,6 +156,13 @@ export default {
       }
       return array
     }
+  },
+  watch: {
+    score(newVal, oldVal) {
+      gsap.to('.bottom-clip-path, .top-clip-path', {
+        y: -newVal * 6
+      })
+    }
   }
 }
 </script>
@@ -166,7 +178,7 @@ body {
   color: #2c3e50;
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 80vh;
   overflow: hidden;
   background-size: cover !important;
   background: url('./assets/background.svg') no-repeat center center scroll,
